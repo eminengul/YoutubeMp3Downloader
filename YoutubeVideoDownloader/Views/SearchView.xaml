@@ -1,0 +1,80 @@
+﻿<UserControl x:Class="YoutubeVideoDownloader.Views.SearchView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:YoutubeVideoDownloader.Views"
+             xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+
+        <StackPanel Orientation="Horizontal" Margin="10">
+            <TextBox x:Name="SearchTextBox" Width="400" Height="30" Margin="5"/>
+            <Button Content="Ara" Width="100" Height="30" Margin="5" Click="OnSearchButtonClick" Cursor="Hand"/>
+        </StackPanel>
+        <ListView x:Name="ResultsListView" Grid.Row="1" Margin="10">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Fotoğraf" Width="100">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Image Source="{Binding UrlFoto}" Width="90" Height="50"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Başlık" DisplayMemberBinding="{Binding Title}" Width="300"/>
+                    <GridViewColumn Header="Kanal" DisplayMemberBinding="{Binding Author}" Width="200"/>
+                    <GridViewColumn Header="Yayınlanma Tarihi" DisplayMemberBinding="{Binding UploadDate}" Width="150"/>
+                    <GridViewColumn Header="URL" Width="200">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBox Text="{Binding Url}" IsReadOnly="True" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="İndir" Width="100">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Button Content="İndir" Click="OnDownloadButtonClick" Cursor="Hand"/>
+                                    <Button Content="Oynat" Click="OnPlayedButtonClick" Cursor="Hand" Margin="3,0,0,0"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <ProgressBar x:Name="CircleProgressBar" Value="50" Maximum="100" Width="100" Height="100" Visibility="Collapsed" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="2">
+            <ProgressBar.Template>
+                <ControlTemplate TargetType="ProgressBar">
+                    <Grid Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
+                        <Ellipse Stroke="Black" StrokeThickness="2"/>
+                        <Ellipse x:Name="PART_Indicator" StrokeThickness="2">
+                            <Ellipse.Fill>
+                                <RadialGradientBrush>
+                                    <GradientStop Offset="0" Color="Transparent"/>
+                                    <GradientStop Offset="1" Color="LightBlue"/>
+                                </RadialGradientBrush>
+                            </Ellipse.Fill>
+                        </Ellipse>
+                        <TextBlock Text="{Binding ElementName=CircleProgressBar, Path=Value, StringFormat={}{0}%}" 
+                           VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </Grid>
+                </ControlTemplate>
+            </ProgressBar.Template>
+        </ProgressBar>
+      <Grid x:Name="playVideo" Visibility="Collapsed" VerticalAlignment="Center" HorizontalAlignment="Center">
+        <MediaElement x:Name="mediaPlayer" Width="600" Height="400" LoadedBehavior="Manual" UnloadedBehavior="Manual"/>
+        
+    </Grid>
+    </Grid>
+</UserControl>
